@@ -1,36 +1,32 @@
 // 今まで学んできたことを活かして簡易Todoリストを作成する
 import { useState } from "react";
-import { TaskList } from "./TaskList";
+import TaskList from "./TaskList";
 
 export type Todo = {
   id: number;
   text: string;
 };
 
-const Example: React.FC = () => {
+const Example = () => {
   const [inputText, setInputText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: "Todo1" },
-    { id: 2, text: "Todo2" },
+    { id: 0, text: "Todo1" },
+    { id: 1, text: "Todo2" },
   ]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInputText(e.target.value);
-  };
 
-  const handleClick = () => {
-    setTodos([...todos, { id: todos.length + 1, text: inputText }]);
+  const addTodoItem = () => {
+    setTodos((state) => [...state, { id: state.length, text: inputText }]);
     setInputText("");
   };
-
   return (
-    <div>
-      <input type="text" value={inputText} onChange={handleChange} />
-      <button type="button" onClick={handleClick}>
-        追加
-      </button>
+    <>
+      <input type="text" value={inputText} onChange={changeHandler} />
+      <button onClick={addTodoItem}>追加</button>
       <TaskList todos={todos} />
-    </div>
+    </>
   );
 };
 
